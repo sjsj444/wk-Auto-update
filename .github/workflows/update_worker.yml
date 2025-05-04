@@ -2,7 +2,7 @@ name: Auto Update _worker.js
 
 on:
   schedule:
-    - cron: '0 0 * * *'   # 每天00:00 UTC运行一次（你可以改时间）
+    - cron: '0 0 * * *'   # 每天00:00 UTC运行
   workflow_dispatch:      # 允许手动触发
 
 jobs:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout 自己仓库
+      - name: Checkout 仓库
         uses: actions/checkout@v4
 
       - name: 获取最新 release 信息
@@ -51,7 +51,7 @@ jobs:
           curl -L -o _worker.js "$download_url"
           echo "${{ env.latest_tag }}" > version.txt
 
-      - name: 提交更改
+      - name: 提交更新到 GitHub
         if: env.need_update == 'true'
         run: |
           git config user.name "github-actions[bot]"
